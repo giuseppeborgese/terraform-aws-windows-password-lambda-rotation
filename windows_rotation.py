@@ -52,13 +52,7 @@ def create_secret(service_client, arn, token):
     change_password = [
         "$password = (Get-SSMParameterValue -Name " + instance + " -WithDecryption $True).Parameters[0].Value",
         "$computers = Hostname",
-        "$changeuser = \"Administrator\"",
-        "Foreach($computer in $computers)",
-        "	{",
-        "     $user = [adsi]\"WinNT://$computer/$changeuser,user\"",
-        "     $user.SetPassword($password)",
-        "     $user.SetInfo()",
-        "	}"
+        "net.exe user Administrator $password"
     ]
 
     try:
